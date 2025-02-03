@@ -1,0 +1,183 @@
+@baseUrl = http://localhost:5000/api
+@contentType = application/json
+
+### 1. Registrasi User
+POST {{baseUrl}}/auth/register
+Content-Type: {{contentType}}
+
+{
+  "username": "gelas",
+  "email": "gelas@gmail.com",
+  "password": "gelas123"
+}
+
+### 2. Login User
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "gelas@gmail.com",
+  "password": "gelas123"
+}
+
+### 3. Get Token
+@token = {{login.response.body.token}}
+
+### 4. Create Task
+POST {{baseUrl}}/tasks
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "title": "Task Pertama",
+  "description": "Ini deskripsi task pertama",
+  "status": "To Do"
+}
+
+### 5. Create Another Task
+POST {{baseUrl}}/tasks
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "title": "Task Penting",
+  "description": "Task dengan prioritas tinggi",
+  "status": "In Progress"
+}
+
+### 6. Get All Tasks
+GET {{baseUrl}}/tasks
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+### 7. Get Tasks with Filters
+GET {{baseUrl}}/tasks?status=Completed&search=penting&page=1&limit=2
+Authorization: Bearer {{token}}
+
+### 8. Update Task (Ambil ID dari response create task)
+@taskId = 8
+PUT {{baseUrl}}/tasks/{{taskId}}
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "title": "Task Updated",
+  "description": "Deskripsi yang diupdate",
+  "status": "Completed"
+}
+
+### 9. Delete Task
+DELETE {{baseUrl}}/tasks/{{taskId}}
+Authorization: Bearer {{token}}
+
+### 10. Test Invalid Task Update
+PUT {{baseUrl}}/tasks/invalid_id
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "title": "Invalid Update"
+}
+
+
+### 11. Register Admin
+POST {{baseUrl}}/auth/register
+Content-Type: {{contentType}}
+
+{
+  "username": "admin",
+  "email": "admin@gmail.com",
+  "password": "admin123"
+}
+
+### 12. Login Admin
+# @name adminLogin
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "admin@gmail.com",
+  "password": "admin123"
+}
+
+### Set Admin Token
+@adminToken = {{adminLogin.response.body.token}}
+
+### 13. Get All Users (Admin Only)
+GET {{baseUrl}}/admin/users
+Authorization: Bearer {{adminToken}}
+
+### 14. Get All Tasks (Admin View)
+GET {{baseUrl}}/admin/tasks
+Authorization: Bearer {{adminToken}}
+
+### 15. Admin Update Any Task
+PUT {{baseUrl}}/admin/tasks/7
+Authorization: Bearer {{adminToken}}
+Content-Type: {{contentType}}
+
+{
+  "status": "Completed",
+  "title": "Updated by Admin"
+}
+
+### 16. Promote User
+PATCH {{baseUrl}}/admin/users/2/promote
+Authorization: Bearer {{adminToken}}
+
+
+### 17. Get Current User Info
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+### 18. Delete User (Admin Only)
+DELETE {{baseUrl}}/admin/users/6
+Authorization: Bearer {{adminToken}}
+
+### 19. Create Task for User (Admin Only)
+POST {{baseUrl}}/admin/tasks
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "title": "Task dari Admin",
+  "description": "Ini task yang dibuat admin untuk user lain",
+  "status": "To Do",
+  "userId": 11
+}
+
+### 20. Create Group
+POST {{baseUrl}}/groups
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "name": "Tim Development",
+  "description": "Group untuk tim pengembangan produk"
+}
+
+### 21. Add Member to Group
+POST {{baseUrl}}/groups/1/members
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "userId": 12
+}
+
+### 22. Create Group Task
+POST {{baseUrl}}/tasks
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "title": "Task Group",
+  "description": "Ini task untuk group",
+  "group_id": 1
+}
+
+### 23 Get Group Tasks
+GET {{baseUrl}}/groups/1/tasks
+Authorization: Bearer {{adminToken}}
