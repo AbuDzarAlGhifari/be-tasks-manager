@@ -150,34 +150,35 @@ Content-Type: application/json
 
 ### 20. Create Group
 POST {{baseUrl}}/groups
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "name": "Tim Development",
-  "description": "Group untuk tim pengembangan produk"
+  "name": "Tim Development 2",
+  "description": "Kelompok pengembangan aplikasi"
 }
 
 ### 21. Add Member to Group
-POST {{baseUrl}}/groups/1/members
-Authorization: Bearer {{adminToken}}
+POST {{baseUrl}}/groups/4/members
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "userId": 12
+  "userId": 1,
+  "role": "member"
 }
 
 ### 22. Create Group Task
 POST {{baseUrl}}/tasks
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "title": "Task Group",
-  "description": "Ini task untuk group",
-  "group_id": 1
+  "title": "Implementasi Fitur Group",
+  "description": "Membuat sistem manajemen group",
+  "group_id": 4
 }
 
-### 23 Get Group Tasks
-GET {{baseUrl}}/groups/1/tasks
-Authorization: Bearer {{adminToken}}
+### 23. Get Group Tasks
+GET {{baseUrl}}/groups/4/tasks
+Authorization: Bearer {{token}}

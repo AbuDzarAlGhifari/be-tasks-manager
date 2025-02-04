@@ -1,11 +1,27 @@
+import Group from '../models/Group.js';
 import Task from '../models/Task.js';
 
 export const createTask = async (req, res) => {
   try {
+    // Validasi group jika ada group_id
+    if (req.body.group_id) {
+      const group = await Group.findById(req.body.group_id);
+      if (!group) {
+        return res.status(404).json({ message: 'Group not found' });
+      }
+
+      // Cek apakah user adalah member group
+      const isMember = await Group.isMember(req.body.group_id, req.user.id);
+      if (!isMember) {
+        return res.status(403).json({ message: 'Not a group member' });
+      }
+    }
+
     const taskId = await Task.create({
       ...req.body,
       userId: req.user.id,
     });
+
     res.status(201).json({ message: 'Task created', taskId });
   } catch (error) {
     res.status(400).json({ message: error.message });

@@ -15,6 +15,7 @@ export const taskSchema = Joi.object({
   title: Joi.string().required(),
   description: Joi.string().allow(''),
   status: Joi.string().valid('To Do', 'In Progress', 'Completed'),
+  group_id: Joi.number().optional(),
 });
 
 export const validate = (schema) => (req, res, next) => {
@@ -30,4 +31,14 @@ export const adminTaskSchema = Joi.object({
   description: Joi.string().allow(''),
   status: Joi.string().valid('To Do', 'In Progress', 'Completed'),
   userId: Joi.number().required(),
+});
+
+export const groupSchema = Joi.object({
+  name: Joi.string().required().max(255),
+  description: Joi.string().allow('').max(1000),
+});
+
+export const groupMemberSchema = Joi.object({
+  userId: Joi.number().required(),
+  role: Joi.string().valid('owner', 'member').default('member'),
 });

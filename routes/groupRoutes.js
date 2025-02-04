@@ -1,17 +1,32 @@
-// import express from 'express';
-// import { authenticate } from '../middlewares/auth.js';
-// import {
-//   createGroup,
-//   addGroupMember,
-//   getGroupTasks,
-// } from '../controllers/groupController.js';
+import express from 'express';
+import {
+  createGroup,
+  addGroupMember,
+  getGroupTasks,
+} from '../controllers/groupController.js';
+import {
+  authenticate,
+  isGroupMember,
+  isGroupOwner,
+} from '../middlewares/auth.js';
+import { groupMemberSchema, validate } from '../middlewares/validation.js';
 
-// const router = express.Router();
+const router = express.Router();
 
-// router.use(authenticate);
+router.use(authenticate);
 
-// router.post('/', createGroup);
-// router.post('/:groupId/members', addGroupMember);
-// router.get('/:groupId/tasks', getGroupTasks);
+// Create group
+router.post('/', createGroup);
 
-// export default router;
+// Add member (group owner only)
+router.post(
+  '/:groupId/members',
+  isGroupOwner,
+  validate(groupMemberSchema),
+  addGroupMember
+);
+
+// Get group tasks
+router.get('/:groupId/tasks', isGroupMember, getGroupTasks);
+
+export default router;
