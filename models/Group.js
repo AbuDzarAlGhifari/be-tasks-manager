@@ -56,4 +56,27 @@ export default class Group {
     );
     return rows.length > 0;
   }
+
+  static async findUserGroups(userId) {
+    const [rows] = await pool.query(
+      `SELECT g.*, gm.role 
+       FROM group_members gm
+       JOIN \`groups\` g ON gm.group_id = g.id
+       WHERE gm.user_id = ?`,
+      [userId]
+    );
+    return rows;
+  }
+
+  static async getMembersWithDetails(groupId) {
+    const [rows] = await pool.query(
+      `SELECT u.id, u.username, u.email, gm.role, gm.joined_at 
+       FROM group_members gm
+       JOIN users u ON gm.user_id = u.id
+       WHERE gm.group_id = ?
+       ORDER BY gm.joined_at DESC`,
+      [groupId]
+    );
+    return rows;
+  }
 }

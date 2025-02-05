@@ -3,6 +3,8 @@ import {
   createGroup,
   addGroupMember,
   getGroupTasks,
+  getUserGroups,
+  getGroupMembers,
 } from '../controllers/groupController.js';
 import {
   authenticate,
@@ -15,18 +17,15 @@ const router = express.Router();
 
 router.use(authenticate);
 
-// Create group
 router.post('/', createGroup);
-
-// Add member (group owner only)
 router.post(
   '/:groupId/members',
   isGroupOwner,
   validate(groupMemberSchema),
   addGroupMember
 );
-
-// Get group tasks
 router.get('/:groupId/tasks', isGroupMember, getGroupTasks);
+router.get('/joined', getUserGroups);
+router.get('/:groupId/members', isGroupMember, getGroupMembers);
 
 export default router;

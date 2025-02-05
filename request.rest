@@ -129,7 +129,7 @@ Authorization: Bearer {{adminToken}}
 
 ### 17. Get Current User Info
 GET {{baseUrl}}/auth/me
-Authorization: Bearer {{adminToken}}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 ### 18. Delete User (Admin Only)
@@ -181,4 +181,12 @@ Content-Type: application/json
 
 ### 23. Get Group Tasks
 GET {{baseUrl}}/groups/4/tasks
+Authorization: Bearer {{token}}
+
+### 24. Get Joined Groups
+GET {{baseUrl}}/groups/joined
+Authorization: Bearer {{token}}
+
+### 25. Get Group Members
+GET {{baseUrl}}/groups/1/members
 Authorization: Bearer {{token}}

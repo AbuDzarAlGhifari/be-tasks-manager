@@ -56,3 +56,21 @@ export const getGroupTasks = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getUserGroups = async (req, res) => {
+  try {
+    const groups = await Group.findUserGroups(req.user.id);
+    res.json(groups);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getGroupMembers = async (req, res) => {
+  try {
+    const members = await Group.getMembersWithDetails(req.params.groupId);
+    res.json(members);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
