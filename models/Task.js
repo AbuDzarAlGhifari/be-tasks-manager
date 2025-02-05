@@ -1,10 +1,10 @@
 import pool from '../config/db.js';
 
 export default class Task {
-  static async create({ title, description, status, userId }) {
+  static async create({ title, description, status, userId, group_id = null }) {
     const [result] = await pool.query(
-      'INSERT INTO tasks (title, description, status, user_id) VALUES (?, ?, ?, ?)',
-      [title, description, status, userId]
+      'INSERT INTO tasks (title, description, status, user_id, group_id) VALUES (?, ?, ?, ?, ?)',
+      [title, description, status, userId, group_id]
     );
     return result.insertId;
   }
@@ -89,40 +89,20 @@ export default class Task {
     );
     return result.insertId;
   }
+
+  static async findByGroup(groupId) {
+    try {
+      const [rows] = await pool.query(
+        `SELECT t.*, u.username as author 
+         FROM tasks t
+         JOIN users u ON t.user_id = u.id
+         WHERE t.group_id = ?
+         ORDER BY t.created_at DESC`,
+        [groupId]
+      );
+      return rows;
+    } catch (error) {
+      throw new Error(`Failed to fetch group tasks: ${error.message}`);
+    }
+  }
 }
-
-// export default class Task {
-//   static async create({ title, description, status, userId, groupId = null }) {
-//     const [result] = await pool.query(
-//       'INSERT INTO tasks (title, description, status, user_id, group_id) VALUES (?, ?, ?, ?, ?)',
-//       [title, description, status, userId, groupId]
-//     );
-//     return result.insertId;
-//   }
-
-//   static async findAll(userId, filters = {}) {
-//     let query = `SELECT t.*, g.name as group_name
-//     FROM tasks t
-//     LEFT JOIN groups g ON t.group_id = g.id
-//     WHERE t.user_id = ? OR t.group_id IN (
-//       SELECT group_id FROM group_members WHERE user_id = ?
-//     )`;
-//     const params = [userId, userId];
-
-//     if (filters.status) {
-//       query += ' AND status = ?';
-//       params.push(filters.status);
-//     }
-
-//     if (filters.search) {
-//       query += ' AND (title LIKE ? OR description LIKE ?)';
-//       params.push(`%${filters.search}%`, `%${filters.search}%`);
-//     }
-
-//     query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
-//     params.push(filters.limit || 10, filters.offset || 0);
-
-//     const [rows] = await pool.query(query, params);
-//     return rows;
-//   }
-// }

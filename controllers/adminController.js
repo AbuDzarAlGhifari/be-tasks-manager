@@ -47,24 +47,6 @@ export const updateAnyTask = async (req, res) => {
   }
 };
 
-// export const deleteUser = async (req, res) => {
-//   try {
-//     if (req.user.id === parseInt(req.params.userId)) {
-//       return res.status(403).json({ message: 'Cannot delete yourself' });
-//     }
-
-//     const affectedRows = await User.delete(req.params.userId);
-
-//     if (affectedRows === 0) {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
-
-//     res.json({ message: 'User deleted successfully' });
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
-
 export const deleteUser = async (req, res) => {
   try {
     const userId = req.params.userId;

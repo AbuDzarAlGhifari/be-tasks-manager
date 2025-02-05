@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import User from '../models/User.js';
+import Group from '../models/Group.js';
 
 dotenv.config();
 
@@ -51,6 +52,38 @@ export const isOwnerOrAdmin = (model) => async (req, res, next) => {
 
     if (resource.user_id !== req.user.id && req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Unauthorized access' });
+    }
+
+    next();
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const isGroupOwner = async (req, res, next) => {
+  try {
+    const group = await Group.findById(req.params.groupId);
+
+    if (!group) {
+      return res.status(404).json({ message: 'Group not found' });
+    }
+
+    if (group.created_by !== req.user.id) {
+      return res.status(403).json({ message: 'Group owner access required' });
+    }
+
+    next();
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const isGroupMember = async (req, res, next) => {
+  try {
+    const isMember = await Group.isMember(req.params.groupId, req.user.id);
+
+    if (!isMember) {
+      return res.status(403).json({ message: 'Not a group member' });
     }
 
     next();
