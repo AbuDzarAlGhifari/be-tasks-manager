@@ -30,8 +30,8 @@ Authorization: Bearer {{token}}
 Content-Type: {{contentType}}
 
 {
-  "title": "Task Pertama",
-  "description": "Ini deskripsi task pertama",
+  "title": "Dashboard",
+  "description": "Update Style Dashboard",
   "status": "To Do"
 }
 
@@ -41,8 +41,8 @@ Authorization: Bearer {{token}}
 Content-Type: {{contentType}}
 
 {
-  "title": "Task Penting",
-  "description": "Task dengan prioritas tinggi",
+  "title": "Auth",
+  "description": "Slicing dan Integrasi API Login & Resgister",
   "status": "In Progress"
 }
 
@@ -56,14 +56,14 @@ GET {{baseUrl}}/tasks?status=Completed&search=penting&page=1&limit=2
 Authorization: Bearer {{token}}
 
 ### 8. Update Task (Ambil ID dari response create task)
-@taskId = 8
+@taskId = 1
 PUT {{baseUrl}}/tasks/{{taskId}}
 Authorization: Bearer {{token}}
 Content-Type: {{contentType}}
 
 {
-  "title": "Task Updated",
-  "description": "Deskripsi yang diupdate",
+  "title": "Landing Page",
+  "description": "Tambahkan Animasi Landing Page",
   "status": "Completed"
 }
 
@@ -113,13 +113,13 @@ GET {{baseUrl}}/admin/tasks
 Authorization: Bearer {{adminToken}}
 
 ### 15. Admin Update Any Task
-PUT {{baseUrl}}/admin/tasks/7
+PUT {{baseUrl}}/admin/tasks/3
 Authorization: Bearer {{adminToken}}
 Content-Type: {{contentType}}
 
 {
-  "status": "Completed",
-  "title": "Updated by Admin"
+  "status": "To Do",
+  "title": "Dashboard"
 }
 
 ### 16. Promote User
@@ -142,10 +142,10 @@ Authorization: Bearer {{adminToken}}
 Content-Type: application/json
 
 {
-  "title": "Task dari Admin",
-  "description": "Ini task yang dibuat admin untuk user lain",
+  "title": "Task dari Admin Revisi",
+  "description": "Revisi SideBar",
   "status": "To Do",
-  "userId": 11
+  "userId": 2
 }
 
 ### 20. Create Group
@@ -154,12 +154,12 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "name": "Tim Development 2",
-  "description": "Kelompok pengembangan aplikasi"
+  "name": "Tim Development 1",
+  "description": "Kelompok pengembangan Web"
 }
 
 ### 21. Add Member to Group
-POST {{baseUrl}}/groups/4/members
+POST {{baseUrl}}/groups/1/members
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
@@ -174,13 +174,13 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "title": "Implementasi Fitur Group",
-  "description": "Membuat sistem manajemen group",
-  "group_id": 4
+  "title": "Fix Flow Sistem",
+  "description": "Diskusi mengenai kebutuhan sistem",
+  "group_id": 1
 }
 
 ### 23. Get Group Tasks
-GET {{baseUrl}}/groups/4/tasks
+GET {{baseUrl}}/groups/1/tasks
 Authorization: Bearer {{token}}
 
 ### 24. Get Joined Groups
