@@ -59,14 +59,14 @@ PORT=
 
 4. **Set Database**
 
-create a MySql database based on init.sql
+   create a MySql database based on init.sql
 
 5. **Running the Application:**
 ```bash
 npm start
 ```
 
-The server will run on `http://localhost:5000`
+   The server will run on `http://localhost:5000`
 
 
     
@@ -164,9 +164,9 @@ Use the following account to test the app
    ```
 ## Tech Stack
 
-**Client:** React + Vite, TailwindCSS
+   **Client:** React + Vite, TailwindCSS
 
-**Server:** Node, Express
+   **Server:** Node, Express
 
-**DataBase:** MySql
+   **DataBase:** MySql
 
